@@ -9,7 +9,7 @@ export const PostItem = (props) => {
         <h2>
           {props.number}. {props.post.title}
         </h2>
-        <h2>{props.post.body}</h2>
+        <p>{props.post.body}</p>
         <div>
           <MyButton onClick={() => props.remove(props.post)}>Delete</MyButton>
         </div>
