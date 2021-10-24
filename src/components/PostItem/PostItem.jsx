@@ -7,7 +7,7 @@ export const PostItem = (props) => {
     <div className={classes.post_container}>
       <div className={classes.post_content}>
         <h2>
-          {props.number}. {props.post.title}
+          {props.post.id}. {props.post.title}
         </h2>
         <p>{props.post.body}</p>
         <div>

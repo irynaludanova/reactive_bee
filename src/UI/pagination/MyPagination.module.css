@@ -1,0 +1,16 @@
+.myPagination {
+  margin-top: 30px;
+  display: flex;
+}
+.page {
+  padding: 10px;
+  border: 1px solid indigo;
+  cursor: pointer;
+}
+
+.page_current {
+  padding: 10px;
+  cursor: pointer;
+  border: 2px solid orangered;
+  font-weight: bold;
+}
