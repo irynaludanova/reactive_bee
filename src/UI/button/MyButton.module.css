@@ -1,0 +1,11 @@
+.myBtn {
+  padding: 5px 15px;
+  color: indigo;
+  font-size: 14px;
+  background: transparent;
+  border: 1px solid indigo;
+  cursor: pointer;
+  border-radius: 5px;
+  width: auto;
+  box-shadow: 5px 5px rgba(19, 7, 41, 0.1);
+}
