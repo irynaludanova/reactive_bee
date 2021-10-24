@@ -1,7 +1,7 @@
 import { React, useState } from "react"
 import { MyButton } from "../../UI/button/MyButton"
 import { MyInput } from "../../UI/input/MyInput"
-
+import classes from "./PostForm.module.css"
 export const PostForm = ({ create }) => {
   const [post, setPost] = useState({
     title: "",
@@ -18,7 +18,7 @@ export const PostForm = ({ create }) => {
     setPost({ title: "", body: "" })
   }
   return (
-    <form>
+    <form className={classes.post_form}>
       <MyInput
         type="text"
         placeholder="Type title..."
