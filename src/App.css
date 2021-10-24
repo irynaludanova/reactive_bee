@@ -7,7 +7,15 @@
 
 #root {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
 }
 
 .remove-btn {
