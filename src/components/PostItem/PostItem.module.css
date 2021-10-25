@@ -12,3 +12,9 @@
   margin: 10px 35px;
   padding: 10px 15px;
 }
+
+.post_btns {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}

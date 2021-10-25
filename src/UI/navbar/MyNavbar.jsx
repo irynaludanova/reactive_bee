@@ -1,7 +1,14 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import { Nav, NavDropdown, Navbar, Container } from "react-bootstrap"
+import { MyButton } from "../button/MyButton"
+import { AuthContext } from "../../context"
 const MyNavbar = () => {
+  const { isAuth, setIsAuth } = useContext(AuthContext)
+  const logout = () => {
+    setIsAuth(false)
+    localStorage.removeItem("auth")
+  }
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -9,8 +16,8 @@ const MyNavbar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Link to="home">Home</Link>
-            <Link to="posts">Posts</Link>
+            <Link to="/home">Home</Link>
+            <Link to="/posts">Posts</Link>
 
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -26,6 +33,7 @@ const MyNavbar = () => {
           </Nav>
         </Navbar.Collapse>
       </Container>
+      <MyButton onClick={logout}>LogOut</MyButton>
     </Navbar>
   )
 }
