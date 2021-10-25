@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import "./../../App.css"
 import { PostFilter } from "./../../components/PostFilter/PostFilter"
 import { PostForm } from "./../../components/PostForm/PostForm"
@@ -11,6 +11,8 @@ import { MyLoader } from "./../../UI/loader/MyLoader"
 import { useFetching } from "./../../hooks/useFetching"
 import { getPageCount } from "./../../utils/pages"
 import { MyPagination } from "./../../UI/pagination/MyPagination"
+import { useObserver } from "../../hooks/useObserver"
+import { MySelect } from "../../UI/select/MySelect"
 
 function Posts() {
   const [posts, setPosts] = useState([])
@@ -19,19 +21,23 @@ function Posts() {
   const [limit, setLimit] = useState(10)
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
-
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
+  const lastElement = useRef()
 
   const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
     const response = await PostService.getAll(limit, page)
-    setPosts(response.data)
+    setPosts([...posts, ...response.data])
     const totalCount = response.headers["x-total-count"]
     setTotalPages(getPageCount(totalCount, limit))
   })
 
+  useObserver(lastElement, page < totalPages, isPostsLoading, () => {
+    setPage(page + 1)
+  })
+
   useEffect(() => {
-    fetchPosts()
-  }, [page])
+    fetchPosts(limit, page)
+  }, [page, limit])
 
   const changePage = (page) => {
     setPage(page)
@@ -54,6 +60,16 @@ function Posts() {
       </MyModal>
       <hr />
       <PostFilter filter={filter} setFilter={setFilter} />
+      <MySelect
+        value={limit}
+        onChange={(value) => setLimit(value)}
+        defaultValue="Quantity of elements"
+        options={[
+          { value: 5, name: "5" },
+          { value: 10, name: "10" },
+          { value: -1, name: "Show all posts" },
+        ]}
+      />
       {postError && (
         <h1>
           Oops...
@@ -61,15 +77,13 @@ function Posts() {
           Something went wrong...{postError}
         </h1>
       )}
-      {isPostsLoading ? (
-        <MyLoader />
-      ) : (
-        <PostList
-          remove={removePost}
-          posts={sortedAndSearchedPosts}
-          title="Post List"
-        />
-      )}
+      <PostList
+        remove={removePost}
+        posts={sortedAndSearchedPosts}
+        title="Post List"
+      />
+      <div ref={lastElement} />
+      {isPostsLoading && <MyLoader />}
       <MyPagination
         totalPages={totalPages}
         page={page}
